@@ -1,26 +1,17 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Pod
 metadata:
-  name: hostpath-deployment
+  name: hostpath-app
   namespace: challenge3
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: hostpath-app
-  template:
-    metadata:
-      labels:
-        app: hostpath-app
-    spec:
-      containers:
-      - name: hostpath-container
-        image: busybox
-        command: ["/bin/sh", "-c", "echo Hello hostPath! && sleep 3600"]
-        volumeMounts:
-        - mountPath: "/mnt/data"
-          name: hostpath-volume
-      volumes:
-      - name: hostpath-volume
-        persistentVolumeClaim:
-          claimName: hostpath-pvc
+  containers:
+  - name: busybox
+    image: busybox
+    command: ["/bin/sh", "-c", "echo Hello hostPath! > /mnt/data/challenge3-hostpath.log  && sleep 3600"]
+    volumeMounts:
+    - mountPath: "/mnt/data"
+      name: hostpath-volume
+  volumes:
+  - name: hostpath-volume
+    persistentVolumeClaim:
+      claimName: hostpath-pvc
