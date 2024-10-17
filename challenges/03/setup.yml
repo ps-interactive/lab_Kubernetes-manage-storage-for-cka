@@ -5,7 +5,6 @@ metadata:
   name: nfs-client-provisioner
   labels:
     app: nfs-client-provisioner
-  # replace with namespace where provisioner is deployed
   namespace: default
 spec:
   replicas: 1
@@ -43,7 +42,6 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: nfs-client-provisioner
-  # replace with namespace where provisioner is deployed
   namespace: default
 ---
 kind: ClusterRole
@@ -74,7 +72,6 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: nfs-client-provisioner
-    # replace with namespace where provisioner is deployed
     namespace: default
 roleRef:
   kind: ClusterRole
@@ -85,7 +82,6 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: leader-locking-nfs-client-provisioner
-  # replace with namespace where provisioner is deployed
   namespace: default
 rules:
   - apiGroups: [""]
@@ -115,3 +111,5 @@ metadata:
 provisioner: k8s-sigs.io/nfs-subdir-external-provisioner
 parameters:
   archiveOnDelete: "false"
+  server: 192.168.49.1
+  path: /export/nfs
