@@ -22,6 +22,7 @@ spec:
       containers:
         - name: nfs-client-provisioner
           image: k8s.gcr.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2
+          imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: nfs-client-root
               mountPath: /persistentvolumes
@@ -35,8 +36,8 @@ spec:
       volumes:
         - name: nfs-client-root
           nfs:
-            server: nfs-server
-            path: /exports
+            server: 192.168.49.1
+            path: /export/nfs
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -111,5 +112,3 @@ metadata:
 provisioner: k8s-sigs.io/nfs-subdir-external-provisioner
 parameters:
   archiveOnDelete: "false"
-  server: 192.168.49.1
-  path: /export/nfs
