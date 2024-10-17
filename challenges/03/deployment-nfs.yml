@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-deployment
+  namespace: challenge3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nfs-app
+  template:
+    metadata:
+      labels:
+        app: nfs-app
+    spec:
+      containers:
+      - name: nfs-container
+        image: busybox
+        command: ["/bin/sh", "-c", "echo Hello NFS! && sleep 3600"]
+        volumeMounts:
+        - mountPath: "/mnt/data"
+          name: nfs-volume
+      volumes:
+      - name: nfs-volume
+        persistentVolumeClaim:
+          claimName: nfs-pvc
